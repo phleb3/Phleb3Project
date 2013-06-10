@@ -1,0 +1,23 @@
+public bool loadObservableCollection(int index)
+        {
+            DataService.Instance.activityData = getQuery<myActivityRecord>(null, "GetActivityData");
+            DataService.Instance.lapData = getQuery<myLapRecord>(null, "GetLapData");
+
+            if (DataService.Instance.activityData.Count > 0)
+            {
+                string initialKey = DataService.Instance.activityData[index].timeStamp;
+                DataService.Instance.trackData = getQuery<myFitRecord>(initialKey, "GetTrackData");
+                DataService.Instance.STPTM = StopTimes.getStopTimes();
+
+                if (DataService.Instance.STPTM.Count > 1)
+                {
+                    DataService.Instance.TabHeaderStp = string.Format("Stop Time ({0})", (DataService.Instance.STPTM.Count - 1).ToString());
+                }
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
